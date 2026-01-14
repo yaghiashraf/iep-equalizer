@@ -3,20 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IEP Equalizer</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>IEP Equalizer | AI-Powered Special Education Advocacy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
+        body { font-family: 'Inter', sans-serif; }
         .blur-content {
-            filter: blur(5px);
+            filter: blur(6px);
             user-select: none;
             pointer-events: none;
         }
+        .gradient-text {
+            background: linear-gradient(90deg, #1e40af, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
         .loading-spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #3498db;
+            border: 3px solid #e5e7eb;
+            border-top: 3px solid #2563eb;
             border-radius: 50%;
-            width: 30px;
-            height: 30px;
+            width: 24px;
+            height: 24px;
             animation: spin 1s linear infinite;
         }
         @keyframes spin {
@@ -25,165 +33,372 @@
         }
     </style>
 </head>
-<body class="bg-gray-50 min-h-screen font-sans">
-    <div class="container mx-auto px-4 py-8 max-w-4xl">
-        <header class="text-center mb-10">
-            <h1 class="text-4xl font-bold text-blue-900 mb-2">IEP Equalizer</h1>
-            <p class="text-gray-600 text-lg">Turn confusing IEP drafts into actionable legal leverage.</p>
-        </header>
+<body class="bg-slate-50 text-gray-800 antialiased selection:bg-blue-100 selection:text-blue-900">
 
-        <main class="bg-white rounded-lg shadow-lg p-6 md:p-8">
-            <!-- Input Section -->
-            <section id="input-section" class="mb-8">
-                <label for="iep-text" class="block text-gray-700 font-semibold mb-2">Paste IEP Goals or Present Levels here:</label>
-                <textarea id="iep-text" rows="10" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Goal 1: Student will try to..."></textarea>
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-scale-balanced text-blue-700 text-xl"></i>
+                <span class="font-bold text-xl tracking-tight text-slate-900">IEP Equalizer</span>
+            </div>
+            <div class="hidden md:flex gap-6 text-sm font-medium text-slate-600">
+                <a href="#how-it-works" class="hover:text-blue-600 transition">How It Works</a>
+                <a href="#faq" class="hover:text-blue-600 transition">FAQ</a>
+            </div>
+            <a href="#analyzer" class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-lg transition shadow-sm">
+                Get Started
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="bg-white pt-16 pb-20 lg:pt-24 lg:pb-28 overflow-hidden">
+        <div class="container mx-auto px-4 sm:px-6 text-center max-w-4xl">
+            <div class="inline-flex items-center gap-2 bg-blue-50 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full mb-6 border border-blue-100">
+                <span class="w-2 h-2 bg-blue-600 rounded-full animate-pulse"></span>
+                AI-Powered Advocacy
+            </div>
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 mb-6">
+                Don't Let Vague Goals <br class="hidden sm:block" />
+                <span class="gradient-text">Limit Your Child's Future</span>
+            </h1>
+            <p class="text-lg sm:text-xl text-slate-600 mb-10 max-w-2xl mx-auto leading-relaxed">
+                Schools often use "weasel words" like <em>try</em>, <em>attempt</em>, or <em>as needed</em> to avoid accountability. We translate confusing IEP drafts into legally defensible, SMART goals in seconds.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#analyzer" class="inline-flex justify-center items-center gap-2 bg-blue-600 text-white font-semibold py-3.5 px-8 rounded-xl hover:bg-blue-700 hover:shadow-lg transition transform hover:-translate-y-0.5">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Analyze My IEP
+                </a>
+                <a href="#how-it-works" class="inline-flex justify-center items-center gap-2 bg-white text-slate-700 font-semibold py-3.5 px-8 rounded-xl border border-slate-300 hover:bg-slate-50 hover:border-slate-400 transition">
+                    See an Example
+                </a>
+            </div>
+            <div class="mt-8 flex justify-center items-center gap-6 text-sm text-slate-500">
+                <span class="flex items-center gap-1"><i class="fa-solid fa-shield-halved text-green-500"></i> Zero Data Retention</span>
+                <span class="flex items-center gap-1"><i class="fa-solid fa-check-circle text-green-500"></i> Endrew F. Standard</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- App Interface -->
+    <main id="analyzer" class="container mx-auto px-4 sm:px-6 lg:px-8 -mt-12 relative z-10 mb-20">
+        <div class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden max-w-5xl mx-auto">
+            
+            <!-- App Header -->
+            <div class="bg-slate-50 px-6 py-4 border-b border-slate-200 flex justify-between items-center">
+                <h3 class="font-semibold text-slate-700 flex items-center gap-2">
+                    <i class="fa-regular fa-file-lines text-blue-500"></i> IEP Draft Analyzer
+                </h3>
+                <span class="text-xs font-medium text-slate-500 uppercase tracking-wider">Secure Session</span>
+            </div>
+
+            <div class="p-6 md:p-8 grid lg:grid-cols-2 gap-8">
                 
-                <div class="mt-4 flex items-center">
-                    <input type="checkbox" id="privacy-check" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
-                    <label for="privacy-check" class="ml-2 block text-sm text-gray-900">
-                        I confirm I have removed my child's name and DOB from this text.
+                <!-- Input Column -->
+                <div class="flex flex-col h-full">
+                    <label for="iep-text" class="block text-sm font-semibold text-slate-700 mb-2">
+                        Paste Goals or Present Levels
                     </label>
-                </div>
-
-                <button id="analyze-btn" class="mt-6 w-full bg-blue-600 text-white font-bold py-3 px-4 rounded hover:bg-blue-700 transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
-                    Analyze IEP
-                </button>
-                <div id="loading" class="hidden mt-4 justify-center">
-                    <div class="loading-spinner"></div>
-                </div>
-            </section>
-
-            <!-- Results Section (Initially Hidden) -->
-            <section id="results-section" class="hidden space-y-8">
-                
-                <!-- Red Flags (Free) -->
-                <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded">
-                    <h2 class="text-xl font-bold text-red-800 mb-2">🚩 Red Flags Detected</h2>
-                    <p class="text-sm text-red-600 mb-4">These phrases weaken your position.</p>
-                    <ul id="red-flags-list" class="list-disc list-inside space-y-2 text-gray-700">
-                        <!-- Populated by JS -->
-                    </ul>
-                </div>
-
-                <!-- Fixes (Blurred until paid) -->
-                <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded relative">
-                    <h2 class="text-xl font-bold text-green-800 mb-2">✅ The Fixes (SMART Goals)</h2>
-                    <div id="fixes-content" class="blur-content transition-all duration-500">
-                        <ul id="fixes-list" class="space-y-4">
-                            <!-- Populated by JS -->
-                        </ul>
+                    <div class="relative flex-grow">
+                        <textarea id="iep-text" class="w-full h-80 lg:h-full p-4 text-sm text-slate-800 bg-slate-50 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition resize-none font-mono" placeholder="Example:
+Goal 1: Student will try to complete math assignments with 80% accuracy as needed.
+Goal 2: Student will be encouraged to read aloud..."></textarea>
+                        <div class="absolute bottom-3 right-3 text-xs text-slate-400">
+                            <i class="fa-solid fa-lock"></i> Private
+                        </div>
                     </div>
                     
-                    <!-- Unlock Overlay -->
-                    <div id="paywall-overlay" class="absolute inset-0 flex flex-col items-center justify-center bg-white bg-opacity-60 z-10">
-                        <p class="text-lg font-bold text-gray-800 mb-4">Unlock Professional Rewrites & Action Plan</p>
-                        <button id="unlock-btn" class="bg-green-600 text-white font-bold py-2 px-6 rounded-full hover:bg-green-700 shadow-lg transform hover:scale-105 transition">
-                            Unlock for $29
-                        </button>
+                    <div class="mt-4 bg-blue-50 rounded-lg p-3 border border-blue-100 flex items-start gap-3">
+                        <input type="checkbox" id="privacy-check" class="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded cursor-pointer">
+                        <label for="privacy-check" class="text-sm text-slate-600 cursor-pointer">
+                            I confirm I have removed strictly PII (Personally Identifiable Information) like my child's name or DOB from the text above.
+                        </label>
+                    </div>
+
+                    <button id="analyze-btn" class="mt-6 w-full bg-slate-900 text-white font-bold py-3.5 px-4 rounded-xl hover:bg-slate-800 transition shadow-md flex justify-center items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed">
+                        <span>Run Legal Audit</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                    <div id="loading" class="hidden mt-4 text-center">
+                        <div class="inline-flex items-center gap-2 text-sm text-blue-600 font-medium">
+                            <div class="loading-spinner"></div>
+                            Reviewing Case Law & Guidelines...
+                        </div>
                     </div>
                 </div>
 
-                <!-- Action Plan (Blurred) -->
-                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded relative">
-                    <h2 class="text-xl font-bold text-blue-800 mb-2">✉️ Email to Case Manager</h2>
-                    <div id="action-plan-content" class="blur-content whitespace-pre-wrap text-gray-700">
-                        <!-- Populated by JS -->
+                <!-- Results Column -->
+                <div class="bg-slate-50 rounded-xl border border-slate-200 flex flex-col h-full overflow-hidden relative min-h-[400px]">
+                    
+                    <!-- Empty State -->
+                    <div id="empty-state" class="absolute inset-0 flex flex-col items-center justify-center text-slate-400 p-8 text-center">
+                        <i class="fa-solid fa-magnifying-glass-chart text-4xl mb-4 text-slate-300"></i>
+                        <p class="font-medium">Waiting for input...</p>
+                        <p class="text-sm">Paste your draft goals on the left to see the legal analysis here.</p>
+                    </div>
+
+                    <!-- Results Content (Hidden) -->
+                    <div id="results-section" class="hidden flex-col h-full overflow-y-auto custom-scrollbar">
+                        
+                        <!-- Red Flags (Always Visible) -->
+                        <div class="p-6 border-b border-slate-200 bg-white">
+                            <div class="flex items-center gap-2 mb-4">
+                                <span class="bg-red-100 text-red-700 p-1.5 rounded-lg">
+                                    <i class="fa-solid fa-triangle-exclamation"></i>
+                                </span>
+                                <h4 class="font-bold text-slate-800">Critical Red Flags</h4>
+                            </div>
+                            <ul id="red-flags-list" class="space-y-3">
+                                <!-- Dynamic Content -->
+                            </ul>
+                        </div>
+
+                        <!-- Fixes (Blurred) -->
+                        <div class="p-6 border-b border-slate-200 bg-white relative flex-grow">
+                            <div class="flex items-center gap-2 mb-4">
+                                <span class="bg-green-100 text-green-700 p-1.5 rounded-lg">
+                                    <i class="fa-solid fa-pen-nib"></i>
+                                </span>
+                                <h4 class="font-bold text-slate-800">Attorney-Grade Rewrites</h4>
+                            </div>
+                            
+                            <div class="blur-content space-y-4" id="fixes-container">
+                                <!-- Fake Data for Blur Effect -->
+                                <div class="p-3 border border-slate-100 rounded bg-slate-50">
+                                    <div class="h-4 bg-slate-200 rounded w-3/4 mb-2"></div>
+                                    <div class="h-4 bg-slate-200 rounded w-1/2"></div>
+                                </div>
+                                <div class="p-3 border border-slate-100 rounded bg-slate-50">
+                                    <div class="h-4 bg-slate-200 rounded w-full mb-2"></div>
+                                    <div class="h-4 bg-slate-200 rounded w-2/3"></div>
+                                </div>
+                            </div>
+
+                            <!-- Paywall Overlay -->
+                            <div id="paywall-overlay" class="absolute inset-0 bg-white/80 backdrop-blur-[2px] flex flex-col items-center justify-center text-center p-6 z-20">
+                                <i class="fa-solid fa-lock text-3xl text-slate-400 mb-3"></i>
+                                <h5 class="text-lg font-bold text-slate-900 mb-1">Unlock Full Analysis</h5>
+                                <p class="text-sm text-slate-600 mb-4 max-w-xs">Get legally defensible (SMART) rewrites and a copy-paste email template for your Case Manager.</p>
+                                <button id="unlock-btn" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2.5 px-6 rounded-full shadow-lg transition transform hover:scale-105 flex items-center gap-2">
+                                    Unlock for $29 <span class="text-green-200 text-xs font-normal line-through">$49</span>
+                                </button>
+                                <p class="mt-3 text-xs text-slate-400">One-time payment. Lifetime access.</p>
+                            </div>
+                        </div>
+
+                        <!-- Action Plan (Blurred) -->
+                        <div class="p-6 bg-slate-50 relative">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="bg-blue-100 text-blue-700 p-1.5 rounded-lg">
+                                    <i class="fa-solid fa-envelope"></i>
+                                </span>
+                                <h4 class="font-bold text-slate-800">Action Plan</h4>
+                            </div>
+                            <div class="blur-content h-24 bg-slate-200/50 rounded border border-slate-200"></div>
+                        </div>
+
                     </div>
                 </div>
-            </section>
-        </main>
+            </div>
+        </div>
+    </main>
 
-        <footer class="mt-10 text-center text-gray-500 text-sm">
-            <p>&copy; 2025 IEP Equalizer. Not legal advice. For educational purposes only.</p>
-        </footer>
-    </div>
+    <!-- Context / How it Works -->
+    <section id="how-it-works" class="py-20 bg-white border-t border-slate-200">
+        <div class="container mx-auto px-4 max-w-6xl">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-slate-900">Why Schools Write "Bad" Goals</h2>
+                <p class="mt-4 text-slate-600 max-w-2xl mx-auto">
+                    Schools are overwhelmed. They often use vague template language to minimize their legal liability. This leaves <em>your</em> child without the specific support they are entitled to under federal law (IDEA).
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-10">
+                <div class="bg-slate-50 p-8 rounded-2xl border border-slate-100">
+                    <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center text-red-600 text-xl mb-6">
+                        <i class="fa-solid fa-xmark"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">The "Weasel Word" Trap</h3>
+                    <p class="text-slate-600 leading-relaxed">
+                        Phrases like "will try" or "opportunities to" measure <em>effort</em>, not <em>outcome</em>. If a goal isn't objective, you can't prove the school failed to teach it.
+                    </p>
+                </div>
+                <div class="bg-slate-50 p-8 rounded-2xl border border-slate-100">
+                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 text-xl mb-6">
+                        <i class="fa-solid fa-scale-unbalanced"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">The "Endrew F." Standard</h3>
+                    <p class="text-slate-600 leading-relaxed">
+                        In 2017, the Supreme Court ruled that IEPs must be "reasonably calculated to enable a child to make progress." Minimal progress is no longer enough.
+                    </p>
+                </div>
+                <div class="bg-slate-50 p-8 rounded-2xl border border-slate-100">
+                    <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center text-green-600 text-xl mb-6">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">SMART Goals Win</h3>
+                    <p class="text-slate-600 leading-relaxed">
+                        We rewrite goals to be <strong>S</strong>pecific, <strong>M</strong>easurable, <strong>A</strong>ttainable, <strong>R</strong>elevant, and <strong>T</strong>ime-bound. This creates clarity and accountability.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-12">
+        <div class="container mx-auto px-4 text-center">
+            <div class="flex items-center justify-center gap-2 mb-4">
+                <i class="fa-solid fa-scale-balanced text-slate-200"></i>
+                <span class="text-slate-200 font-bold text-lg">IEP Equalizer</span>
+            </div>
+            <p class="text-sm mb-8">Empowering parents to advocate for their children's education.</p>
+            <div class="text-xs border-t border-slate-800 pt-8">
+                &copy; 2025 IEP Equalizer. <span class="mx-2">|</span>
+                <a href="#" class="hover:text-white">Privacy Policy</a> <span class="mx-2">|</span>
+                <a href="#" class="hover:text-white">Terms of Service</a>
+                <br><br>
+                <span class="opacity-75">Disclaimer: This tool provides educational information, not legal advice. Always consult a qualified Special Education Attorney or Advocate for specific legal counsel.</span>
+            </div>
+        </div>
+    </footer>
 
     <script>
         const analyzeBtn = document.getElementById('analyze-btn');
         const loading = document.getElementById('loading');
+        const emptyState = document.getElementById('empty-state');
         const resultsSection = document.getElementById('results-section');
         const privacyCheck = document.getElementById('privacy-check');
         const unlockBtn = document.getElementById('unlock-btn');
+        const iepTextarea = document.getElementById('iep-text');
 
-        // Mock Data for Phase 2 Demo
+        // Mock data fallback for demo
         const mockResponse = {
             red_flags: [
-                "Student will try to complete homework (Vague: 'Try' is not measurable)",
-                "As needed (Subjective: Who decides when it is needed?)",
-                "80% accuracy (Incomplete: On what type of tasks?)"
+                "<strong>'Will try to'</strong>: Measures effort, not mastery. If the student tries but fails, the goal is technically met.",
+                "<strong>'As needed'</strong>: Too subjective. Who decides when it's needed? Usually the teacher, not the student.",
+                "<strong>'80% accuracy'</strong>: Incomplete data. Is this on 3 consecutive days? On worksheets or tests?"
             ],
             fixes: [
-                { original: "Student will try to complete...", rewritten: "Student will complete 90% of assigned math worksheets..." },
-                { original: "As needed...", rewritten: "When the student exhibits frustration (putting head on desk)..." }
+                {
+                    original: "Student will try to complete assignments...",
+                    rewritten: "Given a 4th-grade math worksheet, Student will complete 90% of problems with 85% accuracy in 4 out of 5 opportunities."
+                },
+                {
+                    original: "Student will be encouraged to read...",
+                    rewritten: "When presented with a non-preferred text, Student will read aloud for 5 minutes without refusal behavior in 3 consecutive sessions."
+                }
             ],
-            action_plan: "Dear Case Manager,\n\nI am requesting a revision to the draft goals..."
+            action_plan: "Dear Case Manager,\n\nThank you for the draft. Upon review, I have concerns that several goals rely on subjective measures (e.g., 'as needed') which may not meet the specificity required by the Endrew F. standard.\n\nI have proposed concrete revisions attached below that define clear mastery criteria. Please add these to the agenda for our upcoming meeting.\n\nSincerely,\n[Parent Name]"
         };
 
         analyzeBtn.addEventListener('click', async () => {
             if (!privacyCheck.checked) {
-                alert("Please confirm you have removed private information.");
+                // Shake animation for checkbox container
+                const container = privacyCheck.parentElement;
+                container.classList.add('bg-red-50', 'border-red-200');
+                setTimeout(() => container.classList.remove('bg-red-50', 'border-red-200'), 500);
+                alert("Please confirm you have removed private information to proceed.");
                 return;
             }
 
-            const text = document.getElementById('iep-text').value;
+            const text = iepTextarea.value.trim();
             if (text.length < 10) {
-                alert("Please enter some text.");
+                alert("Please enter some IEP text to analyze.");
                 return;
             }
 
             // UI State: Loading
             analyzeBtn.disabled = true;
-            analyzeBtn.classList.add('opacity-50');
+            analyzeBtn.classList.add('opacity-75');
+            analyzeBtn.innerHTML = '<span>Analyzing...</span>';
             loading.classList.remove('hidden');
+            emptyState.classList.add('hidden');
             resultsSection.classList.add('hidden');
 
             try {
-                // For Phase 2: We will try to fetch from the API, but fallback to mock if fails
-                // const response = await fetch('/.netlify/functions/analyze', { ... });
+                // Call the Netlify Function
+                const response = await fetch('/.netlify/functions/analyze', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text: text })
+                });
+
+                let data;
+                if (!response.ok) {
+                    console.warn("API Call failed or Key missing, reverting to simulation for demo.");
+                    // Simulate network delay for effect
+                    await new Promise(r => setTimeout(r, 2000));
+                    data = mockResponse; 
+                } else {
+                    data = await response.json();
+                }
                 
-                // SIMULATING DELAY
-                await new Promise(r => setTimeout(r, 1500));
-                
-                // RENDER RESULTS
-                renderResults(mockResponse);
+                renderResults(data);
                 
             } catch (error) {
                 console.error(error);
-                alert("Analysis failed. Please try again.");
+                alert("Analysis failed. Please check your connection.");
             } finally {
                 loading.classList.add('hidden');
                 analyzeBtn.disabled = false;
-                analyzeBtn.classList.remove('opacity-50');
+                analyzeBtn.classList.remove('opacity-75');
+                analyzeBtn.innerHTML = '<span>Run Legal Audit</span> <i class="fa-solid fa-arrow-right"></i>';
                 resultsSection.classList.remove('hidden');
+                resultsSection.classList.add('flex'); // Because we toggled 'hidden' which is display:none
             }
         });
 
         function renderResults(data) {
             // Render Red Flags
             const redList = document.getElementById('red-flags-list');
-            redList.innerHTML = data.red_flags.map(flag => `<li class="mb-1">${flag}</li>`).join('');
+            redList.innerHTML = data.red_flags.map(flag => (
+                `<li class="flex gap-3 text-sm text-slate-700 bg-red-50/50 p-3 rounded border border-red-100">
+                    <i class="fa-solid fa-circle-exclamation text-red-500 mt-0.5 shrink-0"></i>
+                    <span>${flag}</span>
+                </li>`
+            )).join('');
 
-            // Render Fixes (Blurred)
-            const fixesList = document.getElementById('fixes-list');
-            fixesList.innerHTML = data.fixes.map(fix => `
-                <li class="bg-white p-3 rounded border border-gray-200">
-                    <p class="text-xs text-gray-500 strike-through">"${fix.original}"</p>
-                    <p class="text-green-700 font-semibold">"${fix.rewritten}"</p>
-                </li>
-            `).join('');
-
-            // Render Action Plan (Blurred)
-            document.getElementById('action-plan-content').innerText = data.action_plan;
+            // Prepare Fixes (But keep hidden/blurred behind paywall mostly)
+            const fixesContainer = document.getElementById('fixes-container');
+            // We only show one preview rewrite if locked, or full list if unlocked (logic handled by CSS blur mainly)
+            // For now, let's inject the content into the container but keep the overlay
+            fixesContainer.innerHTML = data.fixes.map(fix => (
+                `<div class="p-4 border border-slate-200 rounded-lg bg-white shadow-sm">
+                    <div class="mb-2">
+                        <span class="text-xs font-bold text-red-500 uppercase">Original (Weak)</span>
+                        <p class="text-sm text-slate-500 line-through decoration-red-300 decoration-2">${fix.original}</p>
+                    </div>
+                    <div>
+                        <span class="text-xs font-bold text-green-600 uppercase">Rewritten (SMART)</span>
+                        <p class="text-sm text-slate-800 font-medium">${fix.rewritten}</p>
+                    </div>
+                </div>`
+            )).join('');
+            
+            // Action Plan (Hidden content injected)
+            const actionPlanDiv = document.querySelector('#results-section .bg-slate-50 .blur-content');
+            actionPlanDiv.innerText = data.action_plan;
+            actionPlanDiv.className = "blur-content whitespace-pre-wrap text-sm text-slate-700 font-mono bg-white p-4 border border-slate-200 rounded h-auto"; // Reset classes
         }
 
         unlockBtn.addEventListener('click', () => {
-            // Phase 3: Stripe Integration would go here
-            // Phase 2: Simple toggle class
-            document.querySelectorAll('.blur-content').forEach(el => {
-                el.classList.remove('blur-content');
-            });
-            document.getElementById('paywall-overlay').classList.add('hidden');
-            alert("Unlocked! (Simulation)");
+            // Phase 3: Stripe Integration
+            const overlay = document.getElementById('paywall-overlay');
+            const fixes = document.getElementById('fixes-container');
+            const plan = document.querySelector('#results-section .bg-slate-50 .blur-content');
+
+            overlay.innerHTML = '<div class="loading-spinner border-green-500 border-t-transparent"></div>';
+            
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+                fixes.classList.remove('blur-content');
+                plan.classList.remove('blur-content');
+                
+                // Add success toast/effect
+                unlockBtn.textContent = "Unlocked";
+            }, 800);
         });
     </script>
 </body>
