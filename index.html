@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IEP Equalizer</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .blur-content {
+            filter: blur(5px);
+            user-select: none;
+            pointer-events: none;
+        }
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl font-bold text-blue-900 mb-2">IEP Equalizer</h1>
+            <p class="text-gray-600 text-lg">Turn confusing IEP drafts into actionable legal leverage.</p>
+        </header>
+
+        <main class="bg-white rounded-lg shadow-lg p-6 md:p-8">
+            <!-- Input Section -->
+            <section id="input-section" class="mb-8">
+                <label for="iep-text" class="block text-gray-700 font-semibold mb-2">Paste IEP Goals or Present Levels here:</label>
+                <textarea id="iep-text" rows="10" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Goal 1: Student will try to..."></textarea>
+                
+                <div class="mt-4 flex items-center">
+                    <input type="checkbox" id="privacy-check" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                    <label for="privacy-check" class="ml-2 block text-sm text-gray-900">
+                        I confirm I have removed my child's name and DOB from this text.
+                    </label>
+                </div>
+
+                <button id="analyze-btn" class="mt-6 w-full bg-blue-600 text-white font-bold py-3 px-4 rounded hover:bg-blue-700 transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                    Analyze IEP
+                </button>
+                <div id="loading" class="hidden mt-4 justify-center">
+                    <div class="loading-spinner"></div>
+                </div>
+            </section>
+
+            <!-- Results Section (Initially Hidden) -->
+            <section id="results-section" class="hidden space-y-8">
+                
+                <!-- Red Flags (Free) -->
+                <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded">
+                    <h2 class="text-xl font-bold text-red-800 mb-2">🚩 Red Flags Detected</h2>
+                    <p class="text-sm text-red-600 mb-4">These phrases weaken your position.</p>
+                    <ul id="red-flags-list" class="list-disc list-inside space-y-2 text-gray-700">
+                        <!-- Populated by JS -->
+                    </ul>
+                </div>
+
+                <!-- Fixes (Blurred until paid) -->
+                <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded relative">
+                    <h2 class="text-xl font-bold text-green-800 mb-2">✅ The Fixes (SMART Goals)</h2>
+                    <div id="fixes-content" class="blur-content transition-all duration-500">
+                        <ul id="fixes-list" class="space-y-4">
+                            <!-- Populated by JS -->
+                        </ul>
+                    </div>
+                    
+                    <!-- Unlock Overlay -->
+                    <div id="paywall-overlay" class="absolute inset-0 flex flex-col items-center justify-center bg-white bg-opacity-60 z-10">
+                        <p class="text-lg font-bold text-gray-800 mb-4">Unlock Professional Rewrites & Action Plan</p>
+                        <button id="unlock-btn" class="bg-green-600 text-white font-bold py-2 px-6 rounded-full hover:bg-green-700 shadow-lg transform hover:scale-105 transition">
+                            Unlock for $29
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Action Plan (Blurred) -->
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded relative">
+                    <h2 class="text-xl font-bold text-blue-800 mb-2">✉️ Email to Case Manager</h2>
+                    <div id="action-plan-content" class="blur-content whitespace-pre-wrap text-gray-700">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="mt-10 text-center text-gray-500 text-sm">
+            <p>&copy; 2025 IEP Equalizer. Not legal advice. For educational purposes only.</p>
+        </footer>
+    </div>
+
+    <script>
+        const analyzeBtn = document.getElementById('analyze-btn');
+        const loading = document.getElementById('loading');
+        const resultsSection = document.getElementById('results-section');
+        const privacyCheck = document.getElementById('privacy-check');
+        const unlockBtn = document.getElementById('unlock-btn');
+
+        // Mock Data for Phase 2 Demo
+        const mockResponse = {
+            red_flags: [
+                "Student will try to complete homework (Vague: 'Try' is not measurable)",
+                "As needed (Subjective: Who decides when it is needed?)",
+                "80% accuracy (Incomplete: On what type of tasks?)"
+            ],
+            fixes: [
+                { original: "Student will try to complete...", rewritten: "Student will complete 90% of assigned math worksheets..." },
+                { original: "As needed...", rewritten: "When the student exhibits frustration (putting head on desk)..." }
+            ],
+            action_plan: "Dear Case Manager,\n\nI am requesting a revision to the draft goals..."
+        };
+
+        analyzeBtn.addEventListener('click', async () => {
+            if (!privacyCheck.checked) {
+                alert("Please confirm you have removed private information.");
+                return;
+            }
+
+            const text = document.getElementById('iep-text').value;
+            if (text.length < 10) {
+                alert("Please enter some text.");
+                return;
+            }
+
+            // UI State: Loading
+            analyzeBtn.disabled = true;
+            analyzeBtn.classList.add('opacity-50');
+            loading.classList.remove('hidden');
+            resultsSection.classList.add('hidden');
+
+            try {
+                // For Phase 2: We will try to fetch from the API, but fallback to mock if fails
+                // const response = await fetch('/.netlify/functions/analyze', { ... });
+                
+                // SIMULATING DELAY
+                await new Promise(r => setTimeout(r, 1500));
+                
+                // RENDER RESULTS
+                renderResults(mockResponse);
+                
+            } catch (error) {
+                console.error(error);
+                alert("Analysis failed. Please try again.");
+            } finally {
+                loading.classList.add('hidden');
+                analyzeBtn.disabled = false;
+                analyzeBtn.classList.remove('opacity-50');
+                resultsSection.classList.remove('hidden');
+            }
+        });
+
+        function renderResults(data) {
+            // Render Red Flags
+            const redList = document.getElementById('red-flags-list');
+            redList.innerHTML = data.red_flags.map(flag => `<li class="mb-1">${flag}</li>`).join('');
+
+            // Render Fixes (Blurred)
+            const fixesList = document.getElementById('fixes-list');
+            fixesList.innerHTML = data.fixes.map(fix => `
+                <li class="bg-white p-3 rounded border border-gray-200">
+                    <p class="text-xs text-gray-500 strike-through">"${fix.original}"</p>
+                    <p class="text-green-700 font-semibold">"${fix.rewritten}"</p>
+                </li>
+            `).join('');
+
+            // Render Action Plan (Blurred)
+            document.getElementById('action-plan-content').innerText = data.action_plan;
+        }
+
+        unlockBtn.addEventListener('click', () => {
+            // Phase 3: Stripe Integration would go here
+            // Phase 2: Simple toggle class
+            document.querySelectorAll('.blur-content').forEach(el => {
+                el.classList.remove('blur-content');
+            });
+            document.getElementById('paywall-overlay').classList.add('hidden');
+            alert("Unlocked! (Simulation)");
+        });
+    </script>
+</body>
+</html>
